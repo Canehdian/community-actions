@@ -11,6 +11,7 @@ This Action pack will enable Atlas to give users Experience for the time spent i
 
 BE SURE TO READ THE WARNING AT THE TOP OF THIS README
 
-There are 3 variables you need to change to start using these Actions.
-1. The Voice Channel Leave action has 2 variables for the amount of Experience and duration to apply it across. (By default it adds 5 experience for every 120 seconds the user is in a voice channel)
-2. The Voice Channel join action has 1 variable which should be the AFK channel's ID so users can't gain Experience for being AFK.
+There are 3 variables you need to change in total to start using these Actions.
+1. EXPPerTime: the amount of Experience gained based on the set IntervalForEXPGain variable
+2. IntervalForEXPGain: the amount of time it takes in a voice channel for a user to gain the set EXPPerTime variable (by default, the user gains 5 exp for every 120 seconds they are in a voice channel)
+3. AFKChannel: This lets the script know what channel is the AFK Channel so it can blacklist users from gaining EXP there
