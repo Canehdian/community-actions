@@ -1,0 +1,37 @@
+{
+  "comment": "Exported from https://atlas.bot",
+  "formatVersion": 2,
+  "exportedAt": "2025-03-29T03:57:13.557Z",
+  "actions": [
+    {
+      "trigger": {
+        "__typename": "GuildActionTriggerVoiceChannelLeave",
+        "contextChannelId": null,
+        "type": "VoiceChannelLeave",
+        "voiceChannelId": null
+      },
+      "disabled": false,
+      "name": "Voice EXP",
+      "content": "// by default the user will gain 5 exp for every 120s that they are in the vc\r\n\r\n{=EXPPerTime;5} // this sets it so the user gains 5 exp for every 120s that they were in the vc\r\n{=IntervalForEXPGain;120} // this sets the amount of seconds that the user will gain the above exp for while they were in the vc\r\n\r\n// DO NOT TOUCH ANYTHING BELOW THIS UNLESS YOU KNOW WHAT YOU'RE DOING\r\n\r\n{if;{catch;{math;{$EXPPerTime} + 1};NaN};==;NaN;{return;{responder.error;The EXPPerTime variable is not a valid number in the Voice EXP Channel Leave action}}}\r\n{if;{catch;{math;{$IntervalForEXPGain} + 1};NaN};==;NaN;{return;{responder.error;The IntervalForEXPGain variable is not a valid number in the Voice EXP Channel Leave action}}}\r\n\r\n{=data;{store.get;VoiceData_{channel.id}}}\r\n{if;{$data};==;;{return}}\r\n{=UserData;{catch;{split;{join;{filter;{$data};/{user.id}-\\d+/;matches};-};-};{return}}}\r\n{=data;{filter;{$data};/{user.id}-\\d+/;!matches}}\r\n\r\n{if;{catch;{join;{$data};};};==;;\r\n    {store.delete;VoiceData_{channel.id}}\r\n    ;\r\n    {store.set;VoiceData_{channel.id};{$data}}\r\n}\r\n// calculates the experience that the user should gain based on the time they were in the voice chat for\r\n{=exp;{math;floor(({time} - {$UserData.1}) / {$IntervalForEXPGain} * {$EXPPerTime})}}\r\n{user.setXP add=true;{$exp}}",
+      "cooldownSeconds": 0,
+      "cooldownType": "User",
+      "restriction": null,
+      "flags": "0"
+    },
+    {
+      "trigger": {
+        "__typename": "GuildActionTriggerVoiceChannelJoin",
+        "contextChannelId": null,
+        "type": "VoiceChannelJoin",
+        "voiceChannelId": null
+      },
+      "disabled": false,
+      "name": "Voice EXP",
+      "content": "{=AFKChannel;CHANNEL_ID} // replace CHANNEL_ID with the ID of your AFK channel or leave it blank if your server doesn't have one\r\n\r\n// DON'T TOUCH ANYTHING BELOW THIS UNLESS YOU KNOW WHAT YOU'RE DOING\r\n\r\n{if;{channel.id};==;{$AFKChannel};{return}}\r\n{=data;{or;{store.get;VoiceData_{channel.id}};{[]}}}\r\n{if;{$data};includes;{user.id};\r\n    {=data;{filter;{$data};/{user.id}-\\d+/;!matches}}\r\n}\r\n{push;{$data};{user.id}-{time}}\r\n{store.set;VoiceData_{channel.id};{$data}}",
+      "cooldownSeconds": 0,
+      "cooldownType": "User",
+      "restriction": null,
+      "flags": "0"
+    }
+  ]
+}
