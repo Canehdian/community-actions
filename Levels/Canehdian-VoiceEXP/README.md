@@ -1,6 +1,7 @@
 # *WARNING*
 This actionpack does not play well with Join to Create voice channels or any other voice channel that disconnects the user immediately after joining.
-To bypass this issue, it is recommended to ![blacklist](https://micro.sylo.digital/i/9EDJsQ) any of these voice channels from both actions.
+To bypass this issue, it is recommended to blacklist any of these voice channels from both actions.
+![blacklist](https://micro.sylo.digital/i/9EDJsQ)
 
 # Info
 
